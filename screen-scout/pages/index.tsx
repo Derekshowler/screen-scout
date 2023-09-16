@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getTrendingMovies, getTrendingTVShows } from '../utils/tmdb';
+import Card from '../components/card';
 import styled from 'styled-components';
+import Search from '../components/search';
+import { CardsWrapper } from '../styles/sharedStyles';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -12,52 +16,61 @@ const SearchBar = styled.div`
   gap: 10px;
 `;
 
-const Input = styled.input`
-  flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const Button = styled.button`
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
 
 export default function Home() {
+  const [movies, setMovies] = useState([]);
+  const [tvShows, setTVShows] = useState([]);
+
+  useEffect(() => {
+    const fetchTrendingData = async () => {
+      const moviesData = await getTrendingMovies();
+      const tvShowsData = await getTrendingTVShows();
+
+      if (moviesData && moviesData.results) {
+        setMovies(moviesData.results);
+      }
+
+      if (tvShowsData && tvShowsData.results) {
+        setTVShows(tvShowsData.results);
+      }
+    };
+
+    fetchTrendingData();
+  }, []);
+
+
   return (
     <Container>
       <header>
-        <h1>Screen Scout</h1>
+        <h1>Screen Scouter</h1>
       </header>
 
       <main>
         <SearchBar>
-          <Input type="text" placeholder="Search movies or TV shows..." />
-          <Button>Search</Button>
+            <Search />
         </SearchBar>
 
         <section className="recommended-movies">
-          <h2>Recommended Movies</h2>
-          {/* Movie cards will go here */}
+          <h2>Top Movies Today</h2>
+          <CardsWrapper>
+            {movies.map(movie => (
+              <Card key={movie.id} title={movie.title} backdropPath={movie.backdrop_path} />
+            ))}
+          </CardsWrapper>
         </section>
 
         <section className="top-tv-shows">
-          <h2>Top TV Shows</h2>
-          {/* TV show cards will go here */}
+          <h2>Top TV Shows Today</h2>
+          <CardsWrapper>
+            {tvShows.map(show => (
+              <Card key={show.id} title={show.name} backdropPath={show.backdrop_path} />
+            ))}
+          </CardsWrapper>
         </section>
       </main>
 
       <footer>
-        <p>© 2023 Screen Scout</p>
+        <p>© 2023 Screen Scouter</p>
       </footer>
     </Container>
   );
