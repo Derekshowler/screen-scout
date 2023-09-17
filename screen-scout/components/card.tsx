@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 const CardContainer = styled.div`
-  width: 200px;
+  display: block;
+  width: 250px;
+  height: 280px;
   border: 1px solid #ccc;
   border-radius: 4px;
   overflow: hidden;
@@ -10,9 +12,11 @@ const CardContainer = styled.div`
   transition: transform 0.2s;
   text-decoration: none;  // Remove underline
   color: inherit;  // Use the parent's text color
+  cursor: pointer;  // To indicate it's clickable
 
-  h3, p, span {
-    color: inherit;  // or set to a specific color
+  & > a {
+    text-decoration: none;  // Remove underline
+    color: inherit;  // Use the parent's text color
   }
 
   &:hover {
@@ -23,7 +27,7 @@ const CardContainer = styled.div`
 
 const Placeholder = styled.div`
   width: 100%;
-  height: 300px;  // or whatever height you want for the image
+  height: 200px;  // or whatever height you want for the image
   background-color: #eee;
   display: flex;
   align-items: center;
@@ -34,13 +38,16 @@ const Placeholder = styled.div`
 
 const CardImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 200px;  // Adjust this value based on your design needs
+  object-fit: cover;  // This will ensure the image covers the space without stretching
+  display: block;  // This removes any space below the image
 `;
 
 const CardTitle = styled.h3`
   padding: 10px;
   font-size: 16px;
   text-align: center;
+  text-decoration: none;
 `;
 
 interface CardProps {
@@ -51,20 +58,20 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ id, title, backdropPath, type }) => {
-    const imageUrl = `https://image.tmdb.org/t/p/w500${backdropPath}`;
-  
-    return (
-      <Link href={`/${type}/${id}`} passHref>
-        <CardContainer>
-          {backdropPath ? (
-            <CardImage src={imageUrl} alt={title} />
-          ) : (
-            <Placeholder>{title}</Placeholder>
-          )}
-          <CardTitle>{title}</CardTitle>
-        </CardContainer>
-      </Link>
-    );
-  };
+  const imageUrl = `https://image.tmdb.org/t/p/w500${backdropPath}`;
+
+  return (
+    <Link href={`/${type}/${id}`} passHref>
+      <CardContainer>
+        {backdropPath ? (
+          <CardImage src={imageUrl} alt={title} />
+        ) : (
+          <Placeholder>{title}</Placeholder>
+        )}
+        <CardTitle>{title}</CardTitle>
+      </CardContainer>
+    </Link>
+  );
+};
 
 export default Card;

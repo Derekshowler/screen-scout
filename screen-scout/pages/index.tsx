@@ -50,8 +50,23 @@ export default function Home() {
             <Search />
         </SearchBar>
 
+        {/* <section className="now-playing">
+          <h2>Now Playing:</h2>
+          <CardsWrapper>
+            {movies.map(movie => (
+              <Card 
+                key={movie.id}
+                id={movie.id} 
+                title={movie.title} 
+                backdropPath={movie.backdrop_path} 
+                type={movie.media_type}
+                />
+            ))}
+          </CardsWrapper>
+        </section> */}
+
         <section className="recommended-movies">
-          <h2>Trending Movies</h2>
+          <h2>Trending Movies This Week:</h2>
           <CardsWrapper>
             {movies.map(movie => (
               <Card 
@@ -66,7 +81,7 @@ export default function Home() {
         </section>
 
         <section className="top-tv-shows">
-          <h2>Top TV Shows Today</h2>
+          <h2>Trending Shows This Week:</h2>
           <CardsWrapper>
             {tvShows.map(show => (
               <Card 
