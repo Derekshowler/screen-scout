@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { getMovies } from '../utils/tmdb';
+import { getSearch } from '../utils/tmdb';
 import Card from '../components/card';
 import { CardsWrapper } from '../styles/sharedStyles';
 
@@ -10,33 +10,39 @@ function SearchResults() {
   // Log the search query from the URL
   console.log("Search Query:", router.query.query);
 
-  const [movies, setMovies] = useState([]);
+  const [search, setSearch] = useState([]);
 
   useEffect(() => {
     if (router.query.query) {
-      const fetchMovies = async () => {
-        const data = await getMovies(router.query.query);
+      const fetchSearch = async () => {
+        const data = await getSearch(router.query.query);
         console.log("API Response:", data);
         if (data && data.results) {
-          setMovies(data.results);
+          setSearch(data.results);
         }
       };
   
-      fetchMovies();
+      fetchSearch();
     }
   }, [router.query.query]);
 
   useEffect(() => {
-    console.log("Movies State:", movies); // Log the movies state whenever it changes
-  }, [movies]);
+    console.log("Search State:", search); // Log the search state whenever it changes
+  }, [search]);
 
   return (
     <div>
       <h1>Search Results for: {router.query.query}</h1>
       <CardsWrapper>
-          {movies.map(item => (
-            <Card key={item.id} title={item.title || item.name} backdropPath={item.backdrop_path} />
-          ))}
+        {search.map(item => (
+          <Card 
+            key={item.id} 
+            id={item.id}
+            title={item.title || item.name} 
+            backdropPath={item.backdrop_path} 
+            type={item.media_type}  // Assuming the API response has a 'media_type' field
+          />
+        ))}
       </CardsWrapper>
     </div>
   );

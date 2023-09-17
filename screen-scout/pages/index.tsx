@@ -51,10 +51,16 @@ export default function Home() {
         </SearchBar>
 
         <section className="recommended-movies">
-          <h2>Top Movies Today</h2>
+          <h2>Trending Movies</h2>
           <CardsWrapper>
             {movies.map(movie => (
-              <Card key={movie.id} title={movie.title} backdropPath={movie.backdrop_path} />
+              <Card 
+                key={movie.id}
+                id={movie.id} 
+                title={movie.title} 
+                backdropPath={movie.backdrop_path} 
+                type={movie.media_type}
+                />
             ))}
           </CardsWrapper>
         </section>
@@ -63,7 +69,13 @@ export default function Home() {
           <h2>Top TV Shows Today</h2>
           <CardsWrapper>
             {tvShows.map(show => (
-              <Card key={show.id} title={show.name} backdropPath={show.backdrop_path} />
+              <Card 
+                key={show.id} 
+                id={show.id}
+                title={show.name} 
+                backdropPath={show.backdrop_path}
+                type={show.media_type} 
+              />
             ))}
           </CardsWrapper>
         </section>
