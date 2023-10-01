@@ -7,7 +7,14 @@ const GlobalStyles = createGlobalStyle`
     background-color: #1C1C1C;
     color: #EAEAEA;
   }
-  // ... other global styles ...
+  a {
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 `;
 
 export default GlobalStyles;
